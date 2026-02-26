@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Manga AI Translator",
+  "version": "1.0",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://azoramoon.com/*", "https://*.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "host_permissions": ["http://localhost:8080/*"]
+}

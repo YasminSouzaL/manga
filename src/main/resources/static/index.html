@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manga Translator AI | Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #0f172a; color: #f8fafc; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-4xl w-full glass rounded-3xl p-8 shadow-2xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold gradient-text mb-2">Manga Translator AI</h1>
+            <p class="text-slate-400">Ambiente de Testes: OCR & Tradução em Tempo Real</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="flex flex-col items-center justify-center border-2 border-dashed border-slate-700 rounded-2xl p-6 hover:border-blue-500 transition-all cursor-pointer" onclick="document.getElementById('fileInput').click()">
+                <svg class="w-12 h-12 text-slate-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <p class="text-sm text-slate-400">Clique ou arraste a página do manga</p>
+                <input type="file" id="fileInput" class="hidden" accept="image/*">
+            </div>
+
+            <div class="bg-slate-900/50 rounded-2xl p-6 border border-slate-800">
+                <h2 class="text-blue-400 font-semibold mb-4 flex items-center">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span> Resultado da Análise
+                </h2>
+                <div id="output" class="text-slate-300 italic text-sm space-y-4">
+                    Aguardando processamento...
+                </div>
+            </div>
+        </div>
+
+        <div id="previewContainer" class="mt-8 hidden">
+            <p class="text-xs text-slate-500 mb-2 uppercase tracking-widest">Preview da Captura</p>
+            <img id="imagePreview" class="rounded-xl w-full border border-slate-800 shadow-lg">
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        fileInput.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Preview visual
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                document.getElementById('imagePreview').src = event.target.result;
+                document.getElementById('previewContainer').classList.remove('hidden');
+                document.getElementById('output').innerHTML = "Processando OCR...";
+                
+                // Aqui você chamaria seu fetch para o localhost:8080/api/manhwa/traduzir
+            };
+            reader.readAsDataURL(file);
+        };
+    </script>
+</body>
+</html>
