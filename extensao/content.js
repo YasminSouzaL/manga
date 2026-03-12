@@ -22,7 +22,7 @@ const ocrObserver = new IntersectionObserver((entries) => {
 async function processarPaginaIndividual(img) {
     const src = img.src;
     const element = img.parentElement || img;
-    
+
     img.dataset.ocrStatus = "processado"; // Marca para não repetir
     console.log(` Traduzindo página: ${src.split('/').pop()}`);
 
@@ -55,50 +55,12 @@ function garantirContainerImagem(element) {
     if (!element.classList.contains("ocr-container")) {
         element.classList.add("ocr-container");
         element.style.position = "relative";
-        element.style.display = "inline-block"; 
+        element.style.display = "inline-block";
         element.style.width = "100%";
     }
     return element;
 }
-/*
 
-function desenharTraducaoNoBalao(container, balao) {
-    const img = container.querySelector("img");
-    if (!img || !balao.traducao) return;
-
-    const scaleX = img.clientWidth / img.naturalWidth;
-    const scaleY = img.clientHeight / img.naturalHeight;
-
-    const overlay = document.createElement("div");
-    overlay.className = "overlay-balao";
-    
-    // Configurações para legibilidade máxima
-    Object.assign(overlay.style, {
-        position: "absolute",
-        left: `${balao.x * scaleX}px`,
-        top: `${balao.y * scaleY}px`,
-        width: `${balao.w * scaleX}px`,
-        height: `${balao.h * scaleY}px`,
-        backgroundColor: "white", 
-        color: "black",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        fontSize: "12px",
-        lineHeight: "1.2",
-        fontWeight: "bold",
-        padding: "4px",
-        borderRadius: "50%",
-        zIndex: "1000",
-        overflow: "hidden", 
-        pointerEvents: "none"
-    });
-
-    overlay.innerText = balao.traducao;
-    container.appendChild(overlay);
-}
-*/
 // ===================== API & CONTROL =====================
 
 async function enviarImagem(imageUrl) {
@@ -126,41 +88,53 @@ function iniciarOCR() {
 }
 
 
-// ===================== DESENHO DO BALÃO (MELHORADO) =====================
+// ===================== DESENHO DO BALÃO =====================
+
+
+
 function desenharTraducaoNoBalao(container, balao) {
     const img = container.querySelector("img");
-    if (!img || !balao.traducao || balao.traducao.length < 2) return;
+    if (!img || !balao.texto || balao.texto.length < 2) return;
 
     const scaleX = img.clientWidth / img.naturalWidth;
     const scaleY = img.clientHeight / img.naturalHeight;
 
     const overlay = document.createElement("div");
     overlay.className = "overlay-balao";
-    
+
+    // ajustar tamanho de fonte dinamicamente com base na área do balão (em pixels após escala)
+    const scaledW = balao.w * scaleX;
+    const scaledH = balao.h * scaleY;
+    const area = scaledW * scaledH;
+    const computedFontSize = area > 40000 ? "14px" : area > 20000 ? "13px" : "12px";
+
     Object.assign(overlay.style, {
         position: "absolute",
         left: `${balao.x * scaleX}px`,
         top: `${balao.y * scaleY}px`,
-        width: `${balao.w * scaleX}px`,
-        height: `${balao.h * scaleY}px`,
-        backgroundColor: "rgba(255, 255, 255, 0.98)", 
-        color: "#1a1a1a",
+        width: `${scaledW}px`,
+        height: `${scaledH}px`,
+        backgroundColor: "#fff",
+        color: "#111",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        fontSize: "min(13px, 3.5vw)",
-        lineHeight: "1.1",
+        fontSize: computedFontSize,
         fontWeight: "700",
-        padding: "5px",
+        lineHeight: "1.15",
+        padding: "8px",
         borderRadius: "50%",
-        zIndex: "1000",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+        border: "2px solid #000",
+        zIndex: "9999",
         pointerEvents: "none",
-        fontFamily: "'Segoe UI', Roboto, sans-serif"
+        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+        fontFamily: "'Segoe UI', Roboto, sans-serif",
+        wordBreak: "break-word",
+        overflowWrap: "anywhere"
     });
 
-    overlay.innerText = balao.traducao.toUpperCase(); 
+    overlay.innerText = balao.texto.toUpperCase();
     container.appendChild(overlay);
 }
 
@@ -170,6 +144,7 @@ function desenharTraducaoNoBalao(container, balao) {
 
     const btn = document.createElement("button");
     btn.id = "btn-ocr-master";
+
     btn.innerHTML = `
         <span style="font-size: 20px; margin-bottom: 2px;"></span>
         <span>TRADUZIR</span>
@@ -177,7 +152,7 @@ function desenharTraducaoNoBalao(container, balao) {
 
     Object.assign(btn.style, {
         position: "fixed",
-        bottom: "80px", 
+        bottom: "80px",
         right: "30px",
         zIndex: "99999",
         display: "flex",

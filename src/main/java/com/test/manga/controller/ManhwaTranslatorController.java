@@ -22,14 +22,18 @@ public class ManhwaTranslatorController {
     @PostMapping("/traduzir")
     public ResponseEntity<?> traduzir(@RequestBody Map<String, String> body) {
 
-        System.out.println(" Cheguei no controller");
+        System.out.println(" Cheguei no manhawaTranslatorController ");
 
         String imageUrl = body.get("imageUrl");
         if (imageUrl == null || imageUrl.isBlank()) {
+            System.out.println("imageUrl ausente");
             return ResponseEntity.badRequest().body("imageUrl ausente");
         }
+
+        
         Map<String, Object> resultado = ocrService.executarOCR(imageUrl);
         return ResponseEntity.ok(resultado);
+
     }
 }
 

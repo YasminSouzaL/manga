@@ -74,6 +74,7 @@ public class EasyOcrService {
             for (JsonNode n : root.get("resultados")) {
                 textoFinal.append(n.get("texto").asText()).append("\n");
             }
+            
 
             return textoFinal.toString().trim();
 
