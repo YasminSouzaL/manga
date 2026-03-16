@@ -22,17 +22,47 @@ public class ManhwaTranslatorController {
     @PostMapping("/traduzir")
     public ResponseEntity<?> traduzir(@RequestBody Map<String, String> body) {
 
+        System.out.println("\n==============================");
         System.out.println(" Cheguei no controller");
 
         String imageUrl = body.get("imageUrl");
+
         if (imageUrl == null || imageUrl.isBlank()) {
+            System.out.println(" ERRO: imageUrl ausente");
             return ResponseEntity.badRequest().body("imageUrl ausente");
         }
-        Map<String, Object> resultado = ocrService.executarOCR(imageUrl);
-        return ResponseEntity.ok(resultado);
+
+        System.out.println("Passou na validação da URL");
+        System.out.println("Imagem recebida:");
+        System.out.println(imageUrl);
+
+        try {
+
+            Map<String, Object> resultado = ocrService.executarOCR(imageUrl);
+
+            System.out.println("\n====== RESPOSTA DO OCR ======");
+
+            if (resultado != null) {
+                System.out.println(resultado);
+            } else {
+                System.out.println("OCR retornou vazio.");
+            }
+
+            System.out.println("==============================\n");
+
+            return ResponseEntity.ok(resultado);
+
+        } catch (Exception e) {
+
+            System.out.println("ERRO ao executar OCR");
+            e.printStackTrace();
+
+            return ResponseEntity
+                    .internalServerError()
+                    .body("Erro ao processar OCR");
+        }
     }
 }
-
 /*
  * CODIGO ANTIGO
  * private final OcrService ocrService;

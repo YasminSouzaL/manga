@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Manga AI Translator",
+  "version": "1.0",
+  "description": "Leia seus mangás e manhwas favoritos sem barreiras de idioma: a extensão traduz automaticamente os textos das páginas usando OCR e IA, tudo de forma rápida e integrada ao navegador.",
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "action": {
+    "default_title": "Manga AI Translator",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+
+  "host_permissions": [
+    "http://localhost:8080/*",
+    "http://localhost:9000/*",
+    "<all_urls>"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

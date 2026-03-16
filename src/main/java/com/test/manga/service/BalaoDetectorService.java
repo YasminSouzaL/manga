@@ -17,9 +17,9 @@ public class BalaoDetectorService {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
-    public List<BalaoDetectado> detectarBaloes(BufferedImage imagem) {
+    public List<BalaoDetectado> detectarBaloes(BufferedImage pagina) {
 
-        Mat src = ConverterImagemUtil.bufferedImageToMat(imagem);
+        Mat src = ConverterImagemUtil.bufferedImageToMat(pagina);
         List<BalaoDetectado> resultado = new ArrayList<>();
 
         if (src == null || src.empty()) return resultado;

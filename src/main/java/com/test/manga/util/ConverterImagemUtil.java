@@ -8,17 +8,17 @@ import java.awt.image.DataBufferByte;
 
 public class ConverterImagemUtil {
 
-    public static Mat bufferedImageToMat(BufferedImage bi) {
-        if (bi == null) return new Mat();
+    public static Mat bufferedImageToMat(BufferedImage pagina) {
+        if (pagina == null) return new Mat();
 
         // Garantir formato BGR
         BufferedImage converted = new BufferedImage(
-                bi.getWidth(),
-                bi.getHeight(),
+                pagina.getWidth(),
+                pagina.getHeight(),
                 BufferedImage.TYPE_3BYTE_BGR
         );
 
-        converted.getGraphics().drawImage(bi, 0, 0, null);
+        converted.getGraphics().drawImage(pagina, 0, 0, null);
 
         byte[] pixels = ((DataBufferByte) converted.getRaster().getDataBuffer()).getData();
         Mat mat = new Mat(converted.getHeight(), converted.getWidth(), CvType.CV_8UC3);
