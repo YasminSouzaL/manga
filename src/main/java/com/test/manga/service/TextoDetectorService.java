@@ -9,6 +9,8 @@ import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
 import com.test.manga.util.ConverterImagemUtil;
+import java.awt.image.BufferedImage;
+
 
 public class TextoDetectorService {
     public List<Rect> detectarRegioesTexto(BufferedImage img) {
