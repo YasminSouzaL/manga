@@ -154,6 +154,9 @@ O projeto utiliza as seguintes tecnologias:
 
 O objetivo do projeto é desenvolver um **tradutor automático de mangás e manhwas baseado em OCR**, capaz de identificar textos em imagens e integrá-los a um sistema de tradução e renderização diretamente no navegador.
 
+<img width="1818" height="792" alt="image" src="https://github.com/user-attachments/assets/85229467-30c1-4726-8d39-67b731c81ee0" />
+
+
 Esse tipo de solução pode ser utilizado em aplicações de:
 
 * leitura automática de quadrinhos
