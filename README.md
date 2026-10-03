@@ -36,7 +36,7 @@ flowchart LR
     A --> E[Balões renderizados<br/>sobre a página]
 ```
 
-# Tecnologias Utilizadas
+#ARQUITETURA
 
 O projeto utiliza as seguintes tecnologias:
 
